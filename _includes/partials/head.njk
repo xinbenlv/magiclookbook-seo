@@ -11,15 +11,15 @@
 <meta property="og:title" content="{{ title or 'MAGICLOOKBOOK - Fashion & Outfit Guides' }}">
 <meta property="og:description" content="{{ description or 'Complete style guides for every occasion' }}">
 <meta property="og:type" content="article">
-<meta property="og:url" content="{{ page.url | url }}">
-<meta property="og:image" content="{{ ogImage or '/content/images/default-og-image.jpg' }}">
+<meta property="og:url" content="https://content.magiclookbook.com{{ page.url | url }}">
+<meta property="og:image" content="https://content.magiclookbook.com{{ ogImage or '/content/images/default-og-image.jpg' }}">
 <meta property="og:site_name" content="MAGICLOOKBOOK">
 
 <!-- Twitter Card Meta Tags -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="{{ title or 'MAGICLOOKBOOK - Fashion & Outfit Guides' }}">
 <meta name="twitter:description" content="{{ description or 'Complete style guides for every occasion' }}">
-<meta name="twitter:image" content="{{ ogImage or '/content/images/default-og-image.jpg' }}">
+<meta name="twitter:image" content="https://content.magiclookbook.com{{ ogImage or '/content/images/default-og-image.jpg' }}">
 
 <!-- Structured Data for Google -->
 <script type="application/ld+json">
@@ -28,7 +28,7 @@
   "@type": "Article",
   "headline": "{{ title }}",
   "description": "{{ description }}",
-  "image": "{{ ogImage or '/content/images/default-og-image.jpg' }}",
+  "image": "https://content.magiclookbook.com{{ ogImage or '/content/images/default-og-image.jpg' }}",
   "datePublished": "{{ page.date or '2024-01-01' }}",
   "dateModified": "{{ page.date or '2024-01-01' }}",
   "author": {
