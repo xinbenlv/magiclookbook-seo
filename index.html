@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StyleMe - Fashion & Outfit Guides</title>
+    <meta name="description" content="Complete style guides for every occasion - from cocktail parties to concerts, dates to festivals. Find the perfect outfit with our comprehensive fashion advice.">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            font-weight: 300;
+        }
+        
+        header p {
+            margin: 0.5rem 0 0 0;
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        main {
+            max-width: 1200px;
+            margin: 3rem auto;
+            padding: 0 2rem;
+        }
+        
+        .intro {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .intro h2 {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+        
+        .intro p {
+            font-size: 1.1rem;
+            color: #666;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .guides-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+        
+        .guide-card {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .guide-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        
+        .guide-card h3 {
+            color: #667eea;
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .guide-card p {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+        
+        .guide-card a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 2px solid transparent;
+            transition: border-bottom 0.3s ease;
+        }
+        
+        .guide-card a:hover {
+            border-bottom: 2px solid #667eea;
+        }
+        
+        footer {
+            background-color: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 4rem;
+        }
+        
+        footer p {
+            margin: 0;
+            opacity: 0.8;
+        }
+        
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+            
+            header p {
+                font-size: 1rem;
+            }
+            
+            main {
+                padding: 0 1rem;
+            }
+            
+            .guides-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>StyleMe</h1>
+        <p>Your Complete Fashion & Style Guide</p>
+    </header>
+
+    <main>
+        <section class="intro">
+            <h2>Dress Perfect for Every Occasion</h2>
+            <p>From elegant cocktail parties to casual movie nights, find the perfect outfit for any event with our comprehensive style guides. Get expert fashion advice tailored to your needs.</p>
+        </section>
+
+        <section class="guides-grid">
+            <article class="guide-card">
+                <h3>Cocktail Attire Guide</h3>
+                <p>Master the art of cocktail party dressing with our elegant and sophisticated outfit recommendations.</p>
+                <a href="/content/cocktail-attire-guide/">Read Guide →</a>
+            </article>
+
+            <article class="guide-card">
+                <h3>Concert Outfit Guide</h3>
+                <p>Rock the perfect look for any concert venue, from intimate acoustic sets to major festival stages.</p>
+                <a href="/content/concert-outfit-guide/">Read Guide →</a>
+            </article>
+
+            <article class="guide-card">
+                <h3>Date Outfit Guide</h3>
+                <p>Make a great first impression with outfit ideas for every type of date, from casual coffee to fancy dinner.</p>
+                <a href="/content/date-outfit-guide/">Read Guide →</a>
+            </article>
+
+            <article class="guide-card">
+                <h3>Festival Outfit Guide</h3>
+                <p>Stand out at music festivals with comfortable yet stylish outfits that are perfect for outdoor events.</p>
+                <a href="/content/festival-outfit-guide/">Read Guide →</a>
+            </article>
+
+            <article class="guide-card">
+                <h3>Funeral Attire Guide</h3>
+                <p>Dress respectfully and appropriately for solemn occasions with our tasteful funeral attire recommendations.</p>
+                <a href="/content/funeral-attire-guide/">Read Guide →</a>
+            </article>
+
+            <article class="guide-card">
+                <h3>Gala Attire Guide</h3>
+                <p>Shine at formal gala events with elegant evening wear and sophisticated styling tips.</p>
+                <a href="/content/gala-attire-guide/">Read Guide →</a>
+            </article>
+
+            <article class="guide-card">
+                <h3>Movie Outfit Guide</h3>
+                <p>Find the perfect cinema-ready outfit that's comfortable for long movie marathons yet stylish enough for date night.</p>
+                <a href="/content/movie-outfit-guide/">Read Guide →</a>
+            </article>
+
+            <article class="guide-card">
+                <h3>Wedding Attire Guide</h3>
+                <p>Navigate wedding guest dress codes with confidence and style, from beach ceremonies to black-tie affairs.</p>
+                <a href="/content/wedding-attire-guide/">Read Guide →</a>
+            </article>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 StyleMe. All rights reserved. | Your guide to perfect style for every occasion.</p>
+    </footer>
+</body>
+</html>

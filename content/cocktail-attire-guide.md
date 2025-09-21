@@ -11,7 +11,7 @@ Cocktail attire sits between business casual and black-tie formal. It's sophisti
 **Dress Options and Lengths**
 Cocktail dresses typically fall at knee-length or just below. A-line, sheath, or fit-and-flare styles work beautifully. Avoid floor-length gowns (too formal) or mini dresses (too casual).
 
-![Various cocktail dress styles showing appropriate lengths and silhouettes for different body types](cocktail-dress-style-comparison.png)
+![Various cocktail dress styles showing appropriate lengths and silhouettes for different body types](/content/images/cocktail-attire/cocktail-dress-style-comparison.png)
 
 **Fabric and Color Choices**
 Choose quality fabrics like silk, crepe, or fine knits. Rich jewel tones, classic black, or sophisticated prints are excellent choices. Metallic accents can add evening glamour.
@@ -21,12 +21,12 @@ Choose quality fabrics like silk, crepe, or fine knits. Rich jewel tones, classi
 **Suit vs. No-Tie Looks**
 Men can wear a dark suit with dress shirt and tie, or opt for a more relaxed approach with a blazer and dress pants without a tie. Both approaches work depending on the specific event.
 
-![Men's cocktail attire options comparing full suit with tie versus blazer and no-tie looks](mens-cocktail-attire-options.png)
+![Men's cocktail attire options comparing full suit with tie versus blazer and no-tie looks](/content/images/cocktail-attire/mens-cocktail-attire-options.png)
 
 **Seasonal Considerations**
 Lighter fabrics and colors work for summer cocktail events, while richer tones and heavier materials suit fall and winter gatherings.
 
-![Cocktail party atmosphere showing guests in appropriate cocktail attire at an elegant venue](cocktail-party-scene.png)
+![Cocktail party atmosphere showing guests in appropriate cocktail attire at an elegant venue](/content/images/cocktail-attire/cocktail-party-scene.png)
 
 ## Related Articles
 

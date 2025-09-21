@@ -7,12 +7,12 @@ Concert outfits should reflect the music while keeping you comfortable throughou
 **Pop Concerts and Taylor Swift Vibes**
 Pop concerts invite colorful, fun outfits that often reference the artist's aesthetic. Sparkles, pastels, and statement pieces work beautifully for these upbeat environments.
 
-![Taylor Swift fan outfits featuring sparkly dresses and colorful accessories at concert venues](taylor-swift-fan-concert-outfits.jpg)
+![Taylor Swift fan outfits featuring sparkly dresses and colorful accessories at concert venues](/content/images/concert-outfit/taylor-swift-fan-concert-outfits.jpg)
 
 **Rock and Alternative Shows**
 Rock concerts call for edgier styling. Think leather jackets, band tees, dark denim, and sturdy boots. The key is looking cool while staying comfortable in potentially crowded spaces.
 
-![Rock concert audience vs pop concert crowd showing different styling approaches and venue atmospheres](rock-vs-pop-concert-crowds.jpg)
+![Rock concert audience vs pop concert crowd showing different styling approaches and venue atmospheres](/content/images/concert-outfit/rock-vs-pop-concert-crowds.jpg)
 
 ## Practical Concert Considerations
 
@@ -22,7 +22,7 @@ Choose shoes you can stand and dance in for hours. Avoid delicate fabrics that m
 **Venue-Specific Styling**
 Outdoor amphitheaters require different preparation than intimate club venues. Consider weather, seating arrangements, and crowd dynamics when planning your look.
 
-![Nighttime concert venue atmosphere with stage lighting and crowd energy](nighttime-concert-venue-atmosphere.jpg)
+![Nighttime concert venue atmosphere with stage lighting and crowd energy](/content/images/concert-outfit/nighttime-concert-venue-atmosphere.jpg)
 
 ## Safety and Style Balance
 

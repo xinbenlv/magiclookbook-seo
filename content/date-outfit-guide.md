@@ -15,17 +15,17 @@ Choose outfits you can move confidently in. If you're uncomfortable in your clot
 **Casual Coffee Shop Dates**
 For relaxed coffee meetings, opt for polished casual looks. Think well-fitted jeans or cute skirts with stylish tops and comfortable shoes you can walk in.
 
-![Cozy coffee shop date outfits showing casual yet put-together styling options](coffee-shop-date-outfits.jpg)
+![Cozy coffee shop date outfits showing casual yet put-together styling options](/content/images/date-outfit/coffee-shop-date-outfits.jpg)
 
 **Upscale Restaurant Dinners**
 Fine dining calls for elevated attire. Women might choose midi dresses or sophisticated separates, while men should consider dress pants with button-down shirts or blazers.
 
-![Elegant restaurant date attire showcasing refined dinner outfit options](upscale-restaurant-date-attire.jpg)
+![Elegant restaurant date attire showcasing refined dinner outfit options](/content/images/date-outfit/upscale-restaurant-date-attire.jpg)
 
 **Movie Theater Dates**
 Cinema dates allow for comfortable, casual styling. Layers work well for air-conditioned theaters, and darker colors hide any accidental snack spills.
 
-![Couple wearing comfortable movie theater date outfits in cinema setting](movie-theater-couple-outfits.jpg)
+![Couple wearing comfortable movie theater date outfits in cinema setting](/content/images/date-outfit/movie-theater-couple-outfits.jpg)
 
 ## Seasonal Date Considerations
 
@@ -47,4 +47,6 @@ For specific scenarios, check [[What to Wear to Movies]] for cinema date ideas, 
 **Keywords:** date outfit ideas, first date outfits, restaurant date attire
 
 **Meta Description:** Complete date outfit guide for different scenarios. Learn what to wear on coffee dates, dinner dates, and casual meetups with confidence-building style tips.
+
+
 

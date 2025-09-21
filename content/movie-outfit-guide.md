@@ -15,12 +15,12 @@ Choose outfits that won't restrict movement when climbing over seats or walking 
 **Casual Chic Approach**
 Combine comfort with style through well-fitted casual pieces. Think soft sweaters with leggings, or flowy dresses with comfortable flats and a cozy cardigan.
 
-![Casual couple outfits perfect for comfortable movie theater seating and air conditioning](couple-movie-theater-outfits.jpg)
+![Casual couple outfits perfect for comfortable movie theater seating and air conditioning](/content/images/movie-outfit/couple-movie-theater-outfits.jpg)
 
 **Date Night Cinema Style**
 For movie dates, elevate your comfort wear slightly. A cute midi dress with sneakers or dark jeans with a stylish top strikes the perfect balance.
 
-![Women's comfortable movie outfits featuring long dresses with cardigans and cozy layers](womens-movie-night-outfits.jpg)
+![Women's comfortable movie outfits featuring long dresses with cardigans and cozy layers](/content/images/movie-outfit/womens-movie-night-outfits.jpg)
 
 ## Practical Movie Theater Tips
 
@@ -30,7 +30,7 @@ Darker colors hide any accidental popcorn butter stains or drink spills. Navy, b
 **Footwear for Theater Navigation**
 Avoid noisy shoes that might disturb other moviegoers. Soft-soled sneakers, ballet flats, or quiet boots work best for walking on theater floors.
 
-![Atmospheric movie theater interior showing audience in comfortable casual attire](movie-theater-audience-atmosphere.jpg)
+![Atmospheric movie theater interior showing audience in comfortable casual attire](/content/images/movie-outfit/movie-theater-audience-atmosphere.jpg)
 
 ## Seasonal Movie Outfit Adjustments
 
