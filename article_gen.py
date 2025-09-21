@@ -9,8 +9,13 @@ import json
 import time
 import requests
 import argparse
+import yaml
+from datetime import datetime
 from pathlib import Path
 from typing import List, Dict, Optional
+from concurrent.futures import ThreadPoolExecutor, as_completed
+from threading import Lock, Semaphore
+import random
 from google import genai
 from google.genai import types
 from dotenv import load_dotenv
@@ -19,7 +24,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 class ArticleGenerator:
-    def __init__(self, force_regenerate=False):
+    def __init__(self, force_regenerate=False, max_concurrent=5):
         # Initialize Gemini client
         api_key = os.getenv('GEMINI_API_KEY')
         if not api_key:
@@ -28,6 +33,18 @@ class ArticleGenerator:
         self.client = genai.Client(api_key=api_key)
         self.model = "gemini-2.5-flash"
         self.force_regenerate = force_regenerate
+        self.max_concurrent = max_concurrent
+        
+        # Thread safety for shared resources
+        self.print_lock = Lock()
+        self.stats_lock = Lock()
+        
+        # Rate limiting semaphore to prevent API overload
+        self.api_semaphore = Semaphore(min(max_concurrent, 5))  # Limit concurrent API calls
+        
+        # Create outlines directory
+        self.outlines_dir = Path("outlines")
+        self.outlines_dir.mkdir(exist_ok=True)
         
         # Article categories and topics (as per instruction.md)
         self.categories = {
@@ -100,6 +117,84 @@ class ArticleGenerator:
         
         return json.loads(response.text)
     
+    def safe_print(self, message: str) -> None:
+        """Thread-safe printing"""
+        with self.print_lock:
+            print(message)
+    
+    def rate_limited_api_call(self, func, *args, **kwargs):
+        """Execute API call with rate limiting and retry logic"""
+        max_retries = 3
+        base_delay = 1.0
+        
+        for attempt in range(max_retries):
+            try:
+                # Acquire semaphore to limit concurrent API calls
+                with self.api_semaphore:
+                    # Add random jitter to prevent thundering herd
+                    jitter = random.uniform(0.1, 0.5)
+                    time.sleep(jitter)
+                    
+                    # Make the API call
+                    return func(*args, **kwargs)
+                    
+            except Exception as e:
+                error_msg = str(e).lower()
+                
+                # Check for rate limiting or SSL errors
+                if any(keyword in error_msg for keyword in ['ssl', 'tls', 'decode', 'rate', 'limit', 'quota']):
+                    if attempt < max_retries - 1:
+                        # Exponential backoff with jitter
+                        delay = base_delay * (2 ** attempt) + random.uniform(0.5, 1.5)
+                        self.safe_print(f"    ⚠️  API error (attempt {attempt + 1}/{max_retries}): {str(e)[:100]}...")
+                        self.safe_print(f"    ⏱️  Retrying in {delay:.1f} seconds...")
+                        time.sleep(delay)
+                        continue
+                
+                # If it's not a retryable error or we've exhausted retries
+                raise e
+        
+        raise Exception(f"API call failed after {max_retries} attempts")
+    
+    def get_outline_path(self, topic: str, category: str) -> Path:
+        """Get the path for storing outline file"""
+        category_dir = self.outlines_dir / category
+        category_dir.mkdir(exist_ok=True)
+        return category_dir / f"{topic}.yml"
+    
+    def save_outline(self, topic: str, category: str, outline: Dict) -> None:
+        """Save outline to YAML file"""
+        outline_path = self.get_outline_path(topic, category)
+        
+        # Add metadata to outline
+        outline_with_meta = {
+            "topic": topic,
+            "category": category,
+            "generated_at": datetime.now().isoformat(),
+            **outline
+        }
+        
+        with open(outline_path, 'w') as f:
+            yaml.dump(outline_with_meta, f, default_flow_style=False, sort_keys=False)
+        
+        self.safe_print(f"  ✓ Saved outline: {outline_path}")
+    
+    def load_outline(self, topic: str, category: str) -> Optional[Dict]:
+        """Load outline from YAML file"""
+        outline_path = self.get_outline_path(topic, category)
+        
+        if not outline_path.exists():
+            return None
+        
+        try:
+            with open(outline_path, 'r') as f:
+                outline = yaml.safe_load(f)
+            self.safe_print(f"  ✓ Loaded outline: {outline_path}")
+            return outline
+        except Exception as e:
+            self.safe_print(f"  ❌ Error loading outline: {e}")
+            return None
+    
     def generate_article_content(self, topic: str, category: str, outline: Dict) -> str:
         """Generate full article content based on outline"""
         # Prepare image references for the content
@@ -129,11 +224,12 @@ class ArticleGenerator:
         3. Include practical tips and advice
         4. Make it engaging and helpful for readers
         5. Use the keywords naturally throughout
-        6. Insert the provided image markdown references at the specified locations
-        7. Add a "Related Articles" section at the end with links to related topics
+        6. CRITICAL: Use ONLY the exact image markdown references provided in the "Image placements" section above. Do NOT create your own image references or modify the provided ones.
+        7. Insert the provided image markdown references at the specified locations exactly as given
+        8. Add a "Related Articles" section at the end with links to related topics
         
         Format as markdown with proper headings (# for title, ## for sections).
-        Place images after the specified sections based on the placement_after_section index.
+        IMPORTANT: Use only the image markdown references from the "Image placements" section - do not create new ones.
         """
         
         response = self.client.models.generate_content(
@@ -160,8 +256,9 @@ class ArticleGenerator:
         print(f"      Prompt: {prompt[:80]}...")
         
         try:
-            # Generate image using Gemini's Imagen model
-            response = self.client.models.generate_images(
+            # Generate image using Gemini's Imagen model with rate limiting
+            response = self.rate_limited_api_call(
+                self.client.models.generate_images,
                 model='imagen-4.0-generate-001',
                 prompt=prompt,
                 config=types.GenerateImagesConfig(
@@ -189,6 +286,356 @@ class ArticleGenerator:
             print(f"    ❌ Error generating image: {str(e)}")
             # Continue with article generation even if image fails
             return False
+    
+    def create_article_file_only(self, topic: str, category: str, content: str, outline: Dict):
+        """Create only the markdown file with frontmatter (no image generation)"""
+        # Dynamically set ogImage to the first image in the outline
+        og_image_path = ""
+        if 'images' in outline and outline['images']:
+            hero_image_filename = outline['images'][0]['filename']
+            og_image_path = f"/content/images/{category}/{hero_image_filename}.png"
+        
+        # Create frontmatter
+        frontmatter = f"""---
+layout: layouts/base.njk
+title: "{outline['title']}"
+description: "{outline['description']}"
+keywords: "{', '.join(outline['keywords'])}"
+ogImage: "{og_image_path}"
+---
+
+"""
+        
+        # Add keywords and meta description at the end
+        footer = f"""
+
+**Keywords:** {', '.join(outline['keywords'])}
+
+**Meta Description:** {outline['description']}
+"""
+        
+        # Combine all parts
+        full_content = frontmatter + content + footer
+        
+        # Create directory if it doesn't exist
+        content_dir = Path("content")
+        content_dir.mkdir(exist_ok=True)
+        
+        # Write file
+        file_path = content_dir / f"{topic}.md"
+        file_path.write_text(full_content)
+        print(f"  ✓ Created article: {file_path}")
+    
+    def check_missing_images(self, category: str, outline: Dict) -> List[Dict]:
+        """Check which images from the outline are missing on disk"""
+        if 'images' not in outline:
+            return []
+        
+        image_dir = Path("content/images") / category
+        missing_images = []
+        
+        for img in outline['images']:
+            image_filename = f"{img['filename']}.png"
+            image_path = image_dir / image_filename
+            if not image_path.exists():
+                missing_images.append(img)
+        
+        return missing_images
+    
+    def analyze_cross_references(self) -> None:
+        """Analyze all outlines and update cross-references"""
+        self.safe_print("\n🔗 Analyzing cross-references between articles...")
+        
+        # Load all outlines
+        all_outlines = {}
+        for category, topics in self.categories.items():
+            for topic in topics:
+                outline = self.load_outline(topic, category)
+                if outline:
+                    all_outlines[topic] = outline
+        
+        # Update cross-references for each outline
+        for topic, outline in all_outlines.items():
+            category = outline['category']
+            
+            # Find related topics based on keywords and content similarity
+            related_topics = self.find_related_topics(topic, outline, all_outlines)
+            
+            if related_topics:
+                # Update outline with cross-references
+                outline['related_topics'] = related_topics
+                self.save_outline(topic, category, outline)
+                self.safe_print(f"  ✓ Updated cross-references for: {topic}")
+    
+    def find_related_topics(self, current_topic: str, current_outline: Dict, all_outlines: Dict) -> List[str]:
+        """Find related topics for cross-referencing"""
+        current_keywords = set(current_outline.get('keywords', []))
+        current_category = current_outline['category']
+        
+        related_topics = []
+        
+        # Find topics with overlapping keywords (excluding current topic)
+        for topic, outline in all_outlines.items():
+            if topic == current_topic:
+                continue
+                
+            topic_keywords = set(outline.get('keywords', []))
+            
+            # Calculate keyword overlap
+            overlap = len(current_keywords.intersection(topic_keywords))
+            
+            # Add if there's significant overlap or if it's from a different category
+            if overlap >= 1 or outline['category'] != current_category:
+                related_topics.append(topic)
+        
+        # Limit to 3-4 related topics
+        return related_topics[:4]
+    
+    def generate_images_from_outline(self, topic: str, category: str, outline: Dict) -> int:
+        """Generate images based on outline data, returns count of images generated"""
+        if 'images' not in outline:
+            return 0
+        
+        # Create image directory
+        image_dir = Path("content/images") / category
+        image_dir.mkdir(parents=True, exist_ok=True)
+        
+        images_generated = 0
+        for img in outline['images']:
+            image_filename = f"{img['filename']}.png"
+            image_path = image_dir / image_filename
+            aspect_ratio = img.get('aspect_ratio', '16:9')  # Default to widescreen
+            if self.generate_image_with_imagen(img['prompt'], str(image_path), aspect_ratio):
+                images_generated += 1
+        
+        return images_generated
+    
+    def generate_single_outline(self, topic: str, category: str) -> Dict:
+        """Generate a single outline (for concurrent execution)"""
+        result = {
+            'topic': topic,
+            'category': category,
+            'status': 'skipped',
+            'error': None
+        }
+        
+        try:
+            # Check if outline already exists
+            outline_path = self.get_outline_path(topic, category)
+            if outline_path.exists() and not self.force_regenerate:
+                self.safe_print(f"  ✓ Outline already exists: {topic}")
+                return result
+            
+            # Generate outline with rate limiting
+            self.safe_print(f"  → Generating outline: {topic}")
+            outline = self.rate_limited_api_call(self.generate_article_outline, topic, category)
+            
+            # Save outline
+            self.save_outline(topic, category, outline)
+            result['status'] = 'generated'
+            
+        except Exception as e:
+            result['status'] = 'error'
+            result['error'] = str(e)
+            self.safe_print(f"  ❌ ERROR generating outline {topic}: {str(e)}")
+        
+        return result
+    
+    def generate_all_outlines(self) -> None:
+        """Phase 1: Generate all outlines concurrently"""
+        self.safe_print("\n📋 Phase 1: Generating all outlines concurrently...")
+        
+        # Collect all topics to process
+        all_topics = []
+        for category, topics in self.categories.items():
+            for topic in topics:
+                all_topics.append((topic, category))
+        
+        self.safe_print(f"Processing {len(all_topics)} topics with {self.max_concurrent} concurrent workers...")
+        
+        outline_count = 0
+        skipped_count = 0
+        error_count = 0
+        
+        # Process topics concurrently
+        with ThreadPoolExecutor(max_workers=self.max_concurrent) as executor:
+            # Submit all tasks
+            future_to_topic = {
+                executor.submit(self.generate_single_outline, topic, category): (topic, category)
+                for topic, category in all_topics
+            }
+            
+            # Process completed tasks
+            for future in as_completed(future_to_topic):
+                topic, category = future_to_topic[future]
+                try:
+                    result = future.result()
+                    
+                    with self.stats_lock:
+                        if result['status'] == 'generated':
+                            outline_count += 1
+                        elif result['status'] == 'skipped':
+                            skipped_count += 1
+                        elif result['status'] == 'error':
+                            error_count += 1
+                            
+                except Exception as e:
+                    self.safe_print(f"  ❌ Unexpected error for {topic}: {str(e)}")
+                    with self.stats_lock:
+                        error_count += 1
+        
+        self.safe_print(f"\n✅ Outline Generation Summary:")
+        self.safe_print(f"  - Generated: {outline_count} outlines")
+        self.safe_print(f"  - Skipped: {skipped_count} existing outlines")
+        self.safe_print(f"  - Errors: {error_count} failed outlines")
+    
+    def generate_single_content(self, topic: str, category: str) -> Dict:
+        """Generate content and images for a single topic (for concurrent execution)"""
+        result = {
+            'topic': topic,
+            'category': category,
+            'article_status': 'skipped',
+            'images_generated': 0,
+            'article_data': None,
+            'error': None
+        }
+        
+        try:
+            # Load outline
+            outline = self.load_outline(topic, category)
+            if not outline:
+                result['error'] = f"No outline found for: {topic}"
+                self.safe_print(f"  ❌ No outline found for: {topic}")
+                return result
+            
+            # Check if article already exists
+            article_path = Path("content") / f"{topic}.md"
+            article_exists = article_path.exists()
+            
+            if article_exists and not self.force_regenerate:
+                self.safe_print(f"  ✓ Article already exists: {topic}")
+                
+                # Extract existing article metadata for index
+                try:
+                    with open(article_path, 'r') as f:
+                        content = f.read()
+                        # Extract title from frontmatter
+                        title_line = [line for line in content.split('\n') if line.startswith('title:')][0]
+                        title = title_line.split('"')[1]
+                        
+                        # Extract keywords from content
+                        keywords_line = [line for line in content.split('\n') if line.startswith('keywords:')][0]
+                        keywords = [k.strip() for k in keywords_line.split('"')[1].split(',')]
+                        
+                        result['article_data'] = {
+                            "topic": topic,
+                            "category": category,
+                            "title": title,
+                            "keywords": keywords
+                        }
+                except:
+                    # Fallback to outline data if parsing fails
+                    result['article_data'] = {
+                        "topic": topic,
+                        "category": category,
+                        "title": outline['title'],
+                        "keywords": outline['keywords']
+                    }
+            else:
+                # Generate new article content with rate limiting
+                self.safe_print(f"  → Generating content: {topic}")
+                content = self.rate_limited_api_call(self.generate_article_content, topic, category, outline)
+                
+                # Create/update article file
+                self.safe_print(f"  → Creating article: {topic}")
+                self.create_article_file_only(topic, category, content, outline)
+                
+                result['article_data'] = {
+                    "topic": topic,
+                    "category": category,
+                    "title": outline['title'],
+                    "keywords": outline['keywords']
+                }
+                result['article_status'] = 'generated'
+            
+            # Check and generate missing images
+            self.safe_print(f"  → Checking/generating images: {topic}")
+            missing_images = self.check_missing_images(category, outline)
+            if missing_images:
+                self.safe_print(f"    Found {len(missing_images)} missing images for {topic}")
+                result['images_generated'] = self.generate_images_from_outline(topic, category, outline)
+            else:
+                self.safe_print(f"    All images already exist for {topic}")
+                
+        except Exception as e:
+            result['error'] = str(e)
+            self.safe_print(f"  ❌ ERROR generating content for {topic}: {str(e)}")
+        
+        return result
+    
+    def generate_all_content(self) -> List[Dict]:
+        """Phase 2: Generate content and images concurrently"""
+        self.safe_print("\n📝 Phase 2: Generating content and images concurrently...")
+        
+        # Collect all topics to process
+        all_topics = []
+        for category, topics in self.categories.items():
+            for topic in topics:
+                all_topics.append((topic, category))
+        
+        self.safe_print(f"Processing {len(all_topics)} topics with {self.max_concurrent} concurrent workers...")
+        
+        all_articles = []
+        skipped_count = 0
+        generated_count = 0
+        image_count = 0
+        error_count = 0
+        
+        # Process topics concurrently
+        with ThreadPoolExecutor(max_workers=self.max_concurrent) as executor:
+            # Submit all tasks
+            future_to_topic = {
+                executor.submit(self.generate_single_content, topic, category): (topic, category)
+                for topic, category in all_topics
+            }
+            
+            # Process completed tasks
+            for future in as_completed(future_to_topic):
+                topic, category = future_to_topic[future]
+                try:
+                    result = future.result()
+                    
+                    with self.stats_lock:
+                        if result['article_data']:
+                            all_articles.append(result['article_data'])
+                        
+                        if result['article_status'] == 'generated':
+                            generated_count += 1
+                        elif result['article_status'] == 'skipped':
+                            skipped_count += 1
+                        
+                        image_count += result['images_generated']
+                        
+                        if result['error']:
+                            error_count += 1
+                            
+                except Exception as e:
+                    self.safe_print(f"  ❌ Unexpected error for {topic}: {str(e)}")
+                    with self.stats_lock:
+                        error_count += 1
+        
+        # Save article index for reference
+        with open("article_index.json", "w") as f:
+            json.dump(all_articles, f, indent=2)
+        
+        self.safe_print(f"\n✅ Content Generation Summary:")
+        self.safe_print(f"  - Generated: {generated_count} articles")
+        self.safe_print(f"  - Skipped: {skipped_count} existing articles")
+        self.safe_print(f"  - Images generated: {image_count} images")
+        self.safe_print(f"  - Errors: {error_count} failed topics")
+        self.safe_print(f"  - Total indexed: {len(all_articles)} articles")
+        
+        return all_articles
     
     def create_article_file(self, topic: str, category: str, content: str, outline: Dict):
         """Create the markdown file with frontmatter"""
@@ -243,91 +690,29 @@ ogImage: "/content/images/{category}/{topic}-hero.png"
                 self.generate_image_with_imagen(prompt, str(image_dir / image_name), '16:9')
     
     def generate_all_articles(self):
-        """Generate all articles for all categories"""
-        all_articles = []
-        skipped_count = 0
-        generated_count = 0
+        """Generate all articles using two-phase concurrent approach"""
+        self.safe_print("MagicLookBook.com Article Generator - Two-Phase Concurrent Approach")
+        self.safe_print("=" * 70)
+        self.safe_print(f"Concurrency: {self.max_concurrent} workers")
         
-        for category, topics in self.categories.items():
-            print(f"\nProcessing category: {category}")
-            
-            for topic in topics:
-                print(f"\n📄 Topic: {topic}")
-                
-                # Check if article already exists
-                article_path = Path("content") / f"{topic}.md"
-                if article_path.exists() and not self.force_regenerate:
-                    print(f"  ✓ Article already exists: {article_path}")
-                    skipped_count += 1
-                    
-                    # Still add to index for existing articles
-                    try:
-                        with open(article_path, 'r') as f:
-                            content = f.read()
-                            # Extract title from frontmatter
-                            title_line = [line for line in content.split('\n') if line.startswith('title:')][0]
-                            title = title_line.split('"')[1]
-                            
-                            # Extract keywords from content
-                            keywords_line = [line for line in content.split('\n') if line.startswith('keywords:')][0]
-                            keywords = [k.strip() for k in keywords_line.split('"')[1].split(',')]
-                            
-                            all_articles.append({
-                                "topic": topic,
-                                "category": category,
-                                "title": title,
-                                "keywords": keywords
-                            })
-                    except:
-                        # If we can't parse existing file, skip it
-                        pass
-                    continue
-                
-                try:
-                    # Generate outline
-                    print("  → Generating outline...")
-                    outline = self.generate_article_outline(topic, category)
-                    
-                    # Generate content
-                    print("  → Generating content...")
-                    content = self.generate_article_content(topic, category, outline)
-                    
-                    # Create article file and generate images immediately
-                    print("  → Creating article and images...")
-                    self.create_article_file(topic, category, content, outline)
-                    
-                    all_articles.append({
-                        "topic": topic,
-                        "category": category,
-                        "title": outline['title'],
-                        "keywords": outline['keywords']
-                    })
-                    
-                    generated_count += 1
-                    
-                    # Rate limiting to avoid API limits
-                    if generated_count > 0:
-                        print("  ⏱️  Waiting 2 seconds (rate limit)...")
-                        time.sleep(2)
-                    
-                except Exception as e:
-                    print(f"  ❌ ERROR: {str(e)}")
-                    continue
+        # Phase 1: Generate all outlines
+        self.generate_all_outlines()
         
-        # Save article index for reference
-        with open("article_index.json", "w") as f:
-            json.dump(all_articles, f, indent=2)
+        # Cross-reference analysis
+        self.analyze_cross_references()
         
-        print(f"\n✅ Summary:")
-        print(f"  - Generated: {generated_count} articles")
-        print(f"  - Skipped: {skipped_count} existing articles")
-        print(f"  - Total indexed: {len(all_articles)} articles")
+        # Phase 2: Generate content and images
+        articles = self.generate_all_content()
         
-        return all_articles
+        # Update cross-references
+        self.update_cross_references()
+        
+        self.safe_print("\n✅ Two-Phase Concurrent Generation Complete!")
+        return articles
     
     def update_cross_references(self):
         """Update articles to reference each other properly"""
-        print("\nUpdating cross-references between articles...")
+        self.safe_print("\nUpdating cross-references between articles...")
         
         # This would scan all articles and update the [[Article Name]] references
         # to proper markdown links based on the actual file names
@@ -341,7 +726,7 @@ ogImage: "/content/images/{category}/{topic}-hero.png"
             
             # For now, just print what would be updated
             if "[[" in content:
-                print(f"  Would update references in: {md_file.name}")
+                self.safe_print(f"  Would update references in: {md_file.name}")
 
 def main():
     """Main execution function"""
@@ -365,6 +750,12 @@ def main():
         choices=["occasions", "events", "seasonal", "professional"],
         help="Generate only articles in a specific category"
     )
+    parser.add_argument(
+        "--concurrent",
+        type=int,
+        default=5,
+        help="Number of concurrent workers (default: 5, recommended: 3-8 for API stability)"
+    )
     
     args = parser.parse_args()
     
@@ -374,8 +765,13 @@ def main():
     if args.all:
         print("🔄 Force regeneration mode: ON")
     
+    # Warn about high concurrency
+    if args.concurrent > 8:
+        print(f"⚠️  WARNING: High concurrency ({args.concurrent}) may cause API rate limiting issues")
+        print("   Consider using --concurrent 3-5 for better stability")
+    
     # Create generator instance
-    generator = ArticleGenerator(force_regenerate=args.all)
+    generator = ArticleGenerator(force_regenerate=args.all, max_concurrent=args.concurrent)
     
     # Filter topics if specific topic or category requested
     if args.topic:

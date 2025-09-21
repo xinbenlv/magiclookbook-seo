@@ -1,108 +1,98 @@
 [
   {
-    "topic": "cocktail-attire-guide",
+    "topic": "date-outfit-guide",
     "category": "occasions",
-    "title": "Cocktail Attire Guide: Your Ultimate Style Handbook | MagicLookBook",
+    "title": "Date Outfit Guide: Perfect Looks for Every Occasion",
     "keywords": [
-      "cocktail attire",
-      "what to wear cocktail party",
-      "cocktail dress code",
-      "cocktail dresses",
-      "men's cocktail attire"
-    ]
-  },
-  {
-    "topic": "wedding-attire-guide",
-    "category": "occasions",
-    "title": "Wedding Attire Guide: What to Wear for Every Ceremony",
-    "keywords": [
-      "wedding guest attire",
-      "wedding dress codes",
-      "what to wear to a wedding",
-      "formal wedding outfits",
-      "destination wedding fashion"
-    ]
-  },
-  {
-    "topic": "funeral-attire-guide",
-    "category": "occasions",
-    "title": "Funeral Attire Guide: Respectful & Appropriate Dressing",
-    "keywords": [
-      "funeral attire",
-      "what to wear to a funeral",
-      "funeral dress code",
-      "mourning dress",
-      "respectful clothing"
+      "date outfits",
+      "what to wear on a date",
+      "first date outfit ideas",
+      "casual date looks",
+      "romantic dinner outfits"
     ]
   },
   {
     "topic": "gala-attire-guide",
     "category": "occasions",
-    "title": "Gala Attire Guide: Master Elegant Event Dressing",
+    "title": "Gala Attire Guide: Dress Codes, Styles & Etiquette",
     "keywords": [
-      "gala attire",
-      "formal event dressing",
-      "black tie guide",
-      "white tie fashion",
-      "cocktail party dress"
+      "Gala Attire",
+      "Black Tie Dress Code",
+      "White Tie Guide",
+      "Formal Event Outfits",
+      "Evening Gowns"
     ]
   },
   {
-    "topic": "date-outfit-guide",
+    "topic": "wedding-attire-guide",
     "category": "occasions",
-    "title": "Date Night Outfits: Your Ultimate Style Guide for Every Occasion",
+    "title": "Wedding Attire Guide: What to Wear for Every Role & Occasion",
     "keywords": [
-      "date night outfits",
-      "first date attire",
-      "romantic dinner dress",
-      "casual date looks",
-      "what to wear on a date"
+      "wedding attire guide",
+      "wedding guest outfits",
+      "bridal fashion",
+      "groom attire",
+      "wedding dress codes"
+    ]
+  },
+  {
+    "topic": "funeral-attire-guide",
+    "category": "occasions",
+    "title": "Funeral Attire Guide: Respectful Dress for All Occasions",
+    "keywords": [
+      "funeral attire",
+      "what to wear to a funeral",
+      "memorial service outfit",
+      "funeral dress code",
+      "respectful clothing"
     ]
   },
   {
     "topic": "concert-outfit-guide",
     "category": "events",
-    "title": "Concert Outfit Guide: Style & Comfort for Every Show",
+    "title": "Concert Outfit Guide: Style Tips for Every Music Genre",
     "keywords": [
       "concert outfits",
       "what to wear to a concert",
       "music festival fashion",
-      "gig style",
+      "genre-specific concert style",
       "concert fashion guide"
     ]
   },
   {
     "topic": "festival-outfit-guide",
     "category": "events",
-    "title": "Festival Outfit Guide: Your Ultimate Style Handbook",
+    "title": "Festival Outfit Guide: Your Ultimate Style Handbook for Any Event",
     "keywords": [
       "festival outfits",
       "festival fashion",
       "music festival style",
-      "boho festival looks",
-      "what to wear to a festival"
-    ]
-  },
-  {
-    "topic": "movie-outfit-guide",
-    "category": "events",
-    "title": "What to Wear to Movies: Comfortable Yet Stylish Cinema Outfits",
-    "keywords": [
-      "movie theater outfits",
-      "casual movie attire",
-      "couples movie night outfits"
+      "boho festival look",
+      "festival accessories"
     ]
   },
   {
     "topic": "beach-outfit-guide",
     "category": "events",
-    "title": "Beach Outfit Guide: Stylish Looks for Every Sunny Escape",
+    "title": "Your Ultimate Beach Outfit Guide: Style, Comfort & Trends",
     "keywords": [
       "beach outfits",
       "beach fashion",
       "summer style",
-      "beachwear guide",
-      "vacation clothes"
+      "swimwear guide",
+      "beach accessories"
+    ]
+  },
+  {
+    "topic": "movie-outfit-guide",
+    "category": "events",
+    "title": "Movie Outfit Guide: Style Inspiration for Every Film Event",
+    "keywords": [
+      "movie outfits",
+      "film premiere fashion",
+      "red carpet style",
+      "cinema date ideas",
+      "themed party outfits"
     ]
   },
   {
@@ -111,28 +101,28 @@
     "title": "Sporting Event Outfit Guide: Stylish Looks for Every Game",
     "keywords": [
       "sporting event outfits",
-      "game day fashion",
-      "stadium style guide",
+      "game day style",
       "what to wear to a game",
-      "sports event fashion"
+      "athletic chic",
+      "fan fashion"
     ]
   },
   {
     "topic": "summer-outfit-guide",
     "category": "seasonal",
-    "title": "Summer Outfit Guide: Essential Styles & Trends for 2024",
+    "title": "Summer Outfit Guide 2024: Stay Stylish & Cool All Season",
     "keywords": [
       "summer outfits",
-      "summer fashion trends",
+      "summer fashion",
+      "what to wear summer",
       "lightweight fabrics",
-      "summer style guide",
-      "MagicLookBook summer"
+      "summer style guide"
     ]
   },
   {
     "topic": "fall-outfit-guide",
     "category": "seasonal",
-    "title": "Fall Outfit Guide: Stylish Looks & Trends for Autumn",
+    "title": "Fall Outfit Guide 2023: Cozy & Chic Style for MagicLookBook",
     "keywords": [
       "fall outfits",
       "autumn fashion",
@@ -144,73 +134,73 @@
   {
     "topic": "winter-outfit-guide",
     "category": "seasonal",
-    "title": "Winter Outfit Guide: Stay Warm & Stylish All Season",
+    "title": "Ultimate Winter Outfit Guide: Stay Warm & Stylish",
     "keywords": [
-      "winter fashion",
       "winter outfits",
-      "cold weather style",
-      "winter layering",
-      "cozy fashion"
+      "winter fashion",
+      "stay warm stylish",
+      "winter style guide",
+      "cold weather fashion"
     ]
   },
   {
     "topic": "spring-outfit-guide",
     "category": "seasonal",
-    "title": "Spring Outfit Guide: Fresh Styles, Trends & Must-Haves",
+    "title": "Spring Outfit Guide: Fresh Styles & Trends for a Chic Season",
     "keywords": [
       "spring outfits",
-      "spring fashion",
-      "spring style",
-      "seasonal trends",
-      "light layering"
+      "spring fashion trends",
+      "spring style guide",
+      "what to wear in spring",
+      "spring wardrobe essentials"
     ]
   },
   {
     "topic": "holiday-party-outfit-guide",
     "category": "seasonal",
-    "title": "Holiday Party Outfit Guide: Sparkle & Style for Every Event",
+    "title": "Holiday Party Outfit Guide: Sparkle & Style Tips",
     "keywords": [
-      "Holiday party outfits",
-      "Christmas party dresses",
-      "New Year's Eve fashion",
-      "Festive attire",
-      "Winter party style"
-    ]
-  },
-  {
-    "topic": "business-casual-guide",
-    "category": "professional",
-    "title": "Ultimate Business Casual Guide: Dress Smart & Stylish",
-    "keywords": [
-      "business casual",
-      "office wear",
-      "professional style",
-      "smart casual",
-      "work outfits"
+      "Holiday Party Outfits",
+      "Festive Fashion",
+      "Party Dress Ideas",
+      "Seasonal Style",
+      "What to Wear Holiday Party"
     ]
   },
   {
     "topic": "job-interview-outfit-guide",
     "category": "professional",
-    "title": "Job Interview Outfit Guide: Dress for Success with MagicLookBook",
+    "title": "Job Interview Outfits: Your Ultimate Guide to Professional Style",
     "keywords": [
       "job interview outfits",
       "professional attire",
-      "interview dress code",
-      "business professional",
-      "magiclookbook style"
+      "interview style guide",
+      "what to wear to an interview",
+      "business professional fashion"
     ]
   },
   {
     "topic": "conference-outfit-guide",
     "category": "professional",
-    "title": "Conference Outfit Guide: Professional Style for Success",
+    "title": "Conference Outfit Guide: Professional Style for Every Event",
     "keywords": [
       "conference outfits",
       "professional attire",
-      "business casual",
-      "conference style",
+      "business casual conference",
+      "networking event fashion",
       "what to wear to a conference"
+    ]
+  },
+  {
+    "topic": "presentation-outfit-guide",
+    "category": "professional",
+    "title": "Power Dressing: Your Ultimate Professional Presentation Outfit Guide",
+    "keywords": [
+      "professional presentation outfits",
+      "business attire guide",
+      "power dressing tips",
+      "what to wear for presentations",
+      "workplace fashion"
     ]
   },
   {
@@ -219,22 +209,22 @@
     "title": "Networking Event Outfit Guide: Dress for Professional Success",
     "keywords": [
       "networking event outfits",
-      "professional attire guide",
+      "professional networking attire",
+      "what to wear networking",
       "business casual networking",
-      "semi-formal networking",
-      "dress for success"
+      "smart casual event outfits"
     ]
   },
   {
-    "topic": "presentation-outfit-guide",
+    "topic": "business-casual-guide",
     "category": "professional",
-    "title": "Master Your Look: Professional Presentation Outfit Guide",
+    "title": "Master Business Casual: Your Ultimate Style Guide for Success",
     "keywords": [
-      "professional presentation outfits",
-      "business attire for speaking",
-      "what to wear for a presentation",
-      "power dressing tips",
-      "executive style guide"
+      "business casual",
+      "business casual dress code",
+      "office attire",
+      "professional style",
+      "workwear for women and men"
     ]
   }
 ]
