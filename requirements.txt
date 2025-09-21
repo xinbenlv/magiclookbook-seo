@@ -1,0 +1,13 @@
+# MagicLookBook Article Generator Dependencies
+
+# Google Gemini API SDK
+google-genai>=0.8.0
+
+# Environment variables
+python-dotenv>=1.0.0
+
+# HTTP requests for nano-banana API
+requests>=2.31.0
+
+# Optional: for async operations
+# aiohttp>=3.9.0
