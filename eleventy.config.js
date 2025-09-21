@@ -1,9 +1,21 @@
+import sitemap from "@quasibit/eleventy-plugin-sitemap";
+
 export default function (eleventyConfig) {
   // Set input directory to current directory
   eleventyConfig.setInputDirectory(".");
   
   // Set output directory
   eleventyConfig.setOutputDirectory("_site");
+  
+  // Add sitemap plugin
+  eleventyConfig.addPlugin(sitemap, {
+    sitemap: {
+      hostname: "https://content.magiclookbook.com", // Replace with your actual domain
+      lastModifiedProperty: "modified",
+      changefreq: "weekly",
+      priority: 0.8
+    }
+  });
 
   // Ignore specific files that should not be processed
   eleventyConfig.ignores.add("README.md");
@@ -21,6 +33,14 @@ export default function (eleventyConfig) {
   
   // Copy JavaScript files
   eleventyConfig.addPassthroughCopy("js");
+  
+  // Copy robots.txt
+  eleventyConfig.addPassthroughCopy("robots.txt");
+  
+  // Add date filter for sitemap
+  eleventyConfig.addFilter("dateToISO", (date) => {
+    return new Date(date).toISOString();
+  });
   
   // Alternative: if you want more control over specific image types
   // eleventyConfig.addPassthroughCopy("content/images/**/*.png");
