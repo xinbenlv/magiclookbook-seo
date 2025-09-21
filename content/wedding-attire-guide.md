@@ -1,3 +1,11 @@
+---
+layout: layouts/base.njk
+title: "What to Wear to a Wedding: Complete Style Guide for Different Wedding Styles"
+description: "Complete wedding guest attire guide for different wedding styles. Learn what to wear to garden, beach, and formal weddings with expert styling tips."
+keywords: "wedding guest outfits, guest dress recommendations, garden wedding attire, beach wedding outfits"
+ogImage: "/content/images/wedding-attire/garden-vs-evening-wedding-outfits.jpg"
+---
+
 # What to Wear to a Wedding: Complete Style Guide for Different Wedding Styles
 
 Planning your wedding guest attire can be tricky. Whether it's a beach ceremony or black-tie evening affair, knowing what to wear ensures you look appropriate while celebrating the happy couple.

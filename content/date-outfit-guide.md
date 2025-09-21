@@ -1,3 +1,11 @@
+---
+layout: layouts/base.njk
+title: "What to Wear on a Date: Best Outfit Ideas for Different Date Scenarios"
+description: "Complete date outfit guide for different scenarios. Learn what to wear on coffee dates, dinner dates, and casual meetups with confidence-building style tips."
+keywords: "date outfit ideas, first date outfits, restaurant date attire"
+ogImage: "/content/images/date-outfit/upscale-restaurant-date-attire.jpg"
+---
+
 # What to Wear on a Date: Best Outfit Ideas for Different Date Scenarios
 
 Choosing the perfect date outfit balances looking attractive with feeling authentic. The key is matching your style to the date activity while ensuring you feel confident and comfortable.

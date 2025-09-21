@@ -1,3 +1,11 @@
+---
+layout: layouts/base.njk
+title: "Festival and Concert Outfits: Coachella-Style Fashion Guide"
+description: "Complete festival outfit guide for Coachella-style events. Get practical and stylish festival fashion tips for outdoor music events and concerts."
+keywords: "festival outfit ideas, coachella outfits, music festival styling"
+ogImage: "/content/images/festival-outfit/nighttime-festival-stage-atmosphere.jpg"
+---
+
 # Festival and Concert Outfits: Coachella-Style Fashion Guide
 
 Festival fashion combines comfort, style, and practicality for all-day outdoor events. From Coachella to local music festivals, your outfit should handle sun, crowds, and long hours while looking Instagram-ready.

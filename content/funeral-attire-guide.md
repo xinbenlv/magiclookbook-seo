@@ -1,3 +1,11 @@
+---
+layout: layouts/base.njk
+title: "What to Wear to a Funeral: Respectful and Appropriate Attire Guide"
+description: "Learn appropriate funeral attire etiquette. Complete guide for respectful men's and women's funeral outfits with cultural considerations and styling tips."
+keywords: "funeral attire, funeral etiquette, what men wear to funerals, what women wear to funerals"
+ogImage: "/content/images/funeral-attire/black-vs-gray-funeral-attire.jpg"
+---
+
 # What to Wear to a Funeral: Respectful and Appropriate Attire Guide
 
 Attending a funeral requires careful consideration of your outfit. The goal is to show respect while maintaining dignity and supporting the grieving family through appropriate dress choices.

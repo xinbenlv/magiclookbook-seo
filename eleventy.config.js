@@ -16,6 +16,12 @@ export default function (eleventyConfig) {
   // Copy images from content/images directory
   eleventyConfig.addPassthroughCopy("content/images");
   
+  // Copy CSS files
+  eleventyConfig.addPassthroughCopy("css");
+  
+  // Copy JavaScript files
+  eleventyConfig.addPassthroughCopy("js");
+  
   // Alternative: if you want more control over specific image types
   // eleventyConfig.addPassthroughCopy("content/images/**/*.png");
   // eleventyConfig.addPassthroughCopy("content/images/**/*.jpg");
@@ -31,6 +37,6 @@ export default function (eleventyConfig) {
       data: "_data"
     },
     // Only process markdown and html files
-    templateFormats: ["md", "html"]
+    templateFormats: ["md", "html", "njk"]
   };
 };

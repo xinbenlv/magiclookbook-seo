@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% include "partials/head.njk" %}
+</head>
+<body>
+    {% include "partials/header.njk" %}
+    <main class="main-content" role="main">
+        <div class="container">
+            <article class="article-content">
+                {{ content | safe }}
+            </article>
+        </div>
+    </main>
+    {% include "partials/footer.njk" %}
+    <script src="/js/mobile-menu.js"></script>
+</body>
+</html>

@@ -1,3 +1,11 @@
+---
+layout: layouts/base.njk
+title: "What to Wear to Movies: Comfortable Yet Stylish Cinema Outfits"
+description: "Complete movie theater outfit guide for comfortable cinema style. Learn what to wear to movies with practical tips for temperature, comfort, and date night styling."
+keywords: "movie theater outfits, casual movie attire, couples movie night outfits"
+ogImage: "/content/images/movie-outfit/movie-theater-audience-atmosphere.jpg"
+---
+
 # What to Wear to Movies: Comfortable Yet Stylish Cinema Outfits
 
 Movie theater outfits should prioritize comfort while maintaining style. Since you'll be sitting for hours in air-conditioned spaces, strategic layering and comfortable fabrics make all the difference.

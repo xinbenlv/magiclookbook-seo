@@ -1,3 +1,11 @@
+---
+layout: layouts/base.njk
+title: "What Does Cocktail Attire Really Mean? Complete Guide for Men and Women"
+description: "Complete cocktail attire guide for men and women. Learn the perfect balance between casual and formal for cocktail parties and semi-formal events."
+keywords: "cocktail attire outfit, cocktail party dress code, semi formal dress code"
+ogImage: "/content/images/cocktail-attire/cocktail-party-scene.png"
+---
+
 # What Does Cocktail Attire Really Mean? Complete Guide for Men and Women
 
 Cocktail attire strikes the perfect balance between casual and formal. Understanding this dress code helps you feel confident at evening events, parties, and semi-formal gatherings.

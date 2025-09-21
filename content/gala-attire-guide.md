@@ -1,3 +1,11 @@
+---
+layout: layouts/base.njk
+title: "What to Wear to a Gala: How to Stand Out at Formal Events"
+description: "Complete gala attire guide for men and women. Learn how to dress for formal gala events with elegant outfit ideas and styling tips for black-tie occasions."
+keywords: "gala dress code, formal event outfits, red carpet dress recommendations"
+ogImage: "/content/images/gala-attire/red-carpet-gala-dress-collection.jpg"
+---
+
 # What to Wear to a Gala: How to Stand Out at Formal Events
 
 Gala events call for your most elevated style. These glamorous occasions demand sophisticated attire that balances elegance with personal flair, ensuring you look stunning while respecting the formal atmosphere.

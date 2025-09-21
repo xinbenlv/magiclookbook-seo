@@ -1,3 +1,11 @@
+---
+layout: layouts/base.njk
+title: "Concert Outfit Guide: Style Inspiration from Taylor Swift to Rock Shows"
+description: "Complete concert outfit guide from Taylor Swift shows to rock venues. Get style inspiration and practical tips for comfortable, stylish concert attire."
+keywords: "concert outfit ideas, concert attire, Taylor Swift concert outfits"
+ogImage: "/content/images/concert-outfit/nighttime-concert-venue-atmosphere.jpg"
+---
+
 # Concert Outfit Guide: Style Inspiration from Taylor Swift to Rock Shows
 
 Concert outfits should reflect the music while keeping you comfortable throughout the show. From pop concerts to rock venues, your outfit can enhance the entire experience while showing your musical taste.
